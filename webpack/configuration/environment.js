@@ -7,7 +7,7 @@ module.exports = {
 
     /* Path to built files directory
        Update this depending on your application's front end folder */
-    output: path.resolve(__dirname, '../../src/wwwroot/dist/'),
+    output: path.resolve(__dirname, '../dist/'),
   },
   limits: {
     /* Image files size in bytes. Below this value the image file will be served as DataURL (inline base64). */

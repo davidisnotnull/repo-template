@@ -7,8 +7,18 @@ window.$ = $;
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 
+/* Components */
+import ExampleJsComponent from './components/exampleJsComponent';
+
+/* Vue */
+import ExampleVueApp from './vue/exampleVueApp';
+
 window.onload = () => {
-       
+    
+    new ExampleJsComponent();
+
+    new ExampleVueApp();
+
     /*
         Custom jquery-validation handling for check boxes must equal true
         Decorate C# model bool properties with

@@ -1,4 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const path = require('path');
+const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackConfiguration = require('../webpack.config');
 
@@ -7,11 +9,6 @@ module.exports = merge(webpackConfiguration, {
   devtool: "source-map",
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      },
       {
         test: /\.(css)$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
@@ -30,9 +27,5 @@ module.exports = merge(webpackConfiguration, {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
     })
-  ],
-  output: {
-    path: path.resolve(__dirname, './public'),
-    filename: 'bundle.js',
-  },
+  ]
 });

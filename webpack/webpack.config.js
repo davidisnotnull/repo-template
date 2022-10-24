@@ -4,11 +4,14 @@
 
 const path = require('path');
 const environment = require('./configuration/environment');
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: {
-        app: path.resolve(environment.paths.source, 'js', 'app.js')
+        app: path.resolve(environment.paths.source, 'js', 'app.js'),
     },
     module: {
         rules: [
@@ -20,13 +23,18 @@ module.exports = {
                 ]
             },
             {
+                test: /\.(css)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
                 test: /\.(scss)$/,
                 use: [
+                    MiniCssExtractPlugin.loader,
                     {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
+                        loader: "css-loader",
                     },
                     {
                         loader: 'postcss-loader',
@@ -41,17 +49,14 @@ module.exports = {
                         }
                     },
                     {
-                        loader: 'sass-loader',
-                        options: {
-                            // Prefer `dart-sass`
-                            implementation: require("sass"),
-                            sassOptions: {
-                                outputStyle: "compressed",
-                            },
-                        },
-                    }
+                        loader: 'sass-loader'
+                    },
                 ]
-            }
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
         ]
     },
     output: {
@@ -60,10 +65,18 @@ module.exports = {
         publicPath: '/dist/'
     },
     plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+        }),
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css",
+        }),
         new CleanWebpackPlugin({
             verbose: true,
             cleanOnceBeforeBuildPatterns: ['**/*', '!stats.json'],
         }),
+        new VueLoaderPlugin()
     ],
     resolve: {
         fallback: {
